@@ -129,7 +129,7 @@ public class PlayAchi extends JFrame {
 		    if (row != -1) break;
 		}
 
-		if (game.numberEmptyTiles() == 1)
+		if (numberEmptyTiles() == 1)
 		    if (from_row == -1) {
 			if (game.tileIsHuman(row,col)) {
 			    from_row = row;
@@ -149,7 +149,7 @@ public class PlayAchi extends JFrame {
 		if (validPlay(row,col)) {
 		    /* Valid play, mark it on the board */
 
-		    if (game.numberEmptyTiles() > 1) {
+		    if (numberEmptyTiles() > 1) {
 			gameDisplay[row][col].setIcon(new ImageIcon("human.gif"));
 			gameDisplay[row][col].paint(gameDisplay[row][col].getGraphics());
 			game.storePlay(row,col,HUMAN);
@@ -188,7 +188,7 @@ public class PlayAchi extends JFrame {
 			    }
 
 
-			    if (game.numberEmptyTiles() > 1) {
+			    if (numberEmptyTiles() > 1) {
 				// Set down a new tile
 				game.storePlay(pos.getRow(),pos.getCol(),COMPUTER);
 				gameDisplay[pos.getRow()][pos.getCol()].setIcon(
@@ -246,11 +246,24 @@ public class PlayAchi extends JFrame {
         }
 
 
-	/* Return true if the human player selected a valid play and return false otherwise */
+       /* --------------------------------------------- */
+	private int numberEmptyTiles() {	  
+       /* --------------------------------------------- */  
+
+	    int emptytiles = 0;
+
+	    for (int i = 0; i < board_size; i++) 
+		for (int j = 0; j < board_size; j++)
+		    if (game.tileIsEmpty(i,j)) ++ emptytiles;
+
+	    return emptytiles;
+	}
+
+	/* Returns true if the human player selected a valid play and return false otherwise */
        /* --------------------------------------------- */
 	private boolean validPlay(int row, int col) {	  
        /* --------------------------------------------- */  
-	    if (game.numberEmptyTiles() > 1)
+	    if (numberEmptyTiles() > 1)
 		if (game.tileIsEmpty(row,col)) return true;
 		else return false;
 	    else 
@@ -307,7 +320,7 @@ public class PlayAchi extends JFrame {
 	else if ((numCalls % THINKING) == 0) System.out.print(".");
 
 
-	if (game.numberEmptyTiles() > 1) {
+	if (numberEmptyTiles() > 1) {
 	  // Play into an empty position of the board
           for(row = 0; row < board_size; row++)
              for(column = 0; column < board_size; column++) {

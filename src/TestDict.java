@@ -8,7 +8,7 @@ public class TestDict {
 
   public static void main(String[] args) {
     Dictionary dict = new Dictionary(9887);
-    DictEntry pair;
+    ConfigData pair;
     boolean[] test = new boolean[11];
     int i,j;
 
@@ -35,7 +35,7 @@ public class TestDict {
 
     if (test[1])
 	try {
-	    dict.insert(new DictEntry("answer", 42));
+	    dict.insert(new ConfigData("answer", 42));
 	    System.out.println("   Test 1 succeeded");
 	}
 	catch (DictionaryException e) {
@@ -46,7 +46,7 @@ public class TestDict {
     // Should throw an exception.
     if (test[2])
 	try {
-	    dict.insert(new DictEntry("answer", 56));
+	    dict.insert(new ConfigData("answer", 56));
 	    System.out.println("***Test 2 failed");
 	} 
 	catch (DictionaryException e) {
@@ -97,7 +97,7 @@ public class TestDict {
 	for (i = 0; i < 10000; ++i) {
 	    s = (new Integer(i)).toString();
 	    for (j = 0; j < 5; ++j) s += s;
-	    collisions += dict.insert(new DictEntry(s,i));
+	    collisions += dict.insert(new ConfigData(s,i));
 	}
 	System.out.println("   Test 7 succeeded");
     } 

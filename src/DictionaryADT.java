@@ -1,7 +1,7 @@
 
 public interface DictionaryADT 
 {
-    public int insert (DictEntry pair) throws DictionaryException;
+    public int insert (ConfigData pair) throws DictionaryException;
 
     public void remove (String config) throws DictionaryException;
 
