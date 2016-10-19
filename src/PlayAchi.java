@@ -137,8 +137,7 @@ public class PlayAchi extends JFrame {
 
 			    /* Mark position selected */
 			    gameDisplay[from_row][from_col].setIcon(new ImageIcon("marked.gif"));
-			    gameDisplay[from_row][from_col].paint(gameDisplay
-                                                              [from_row][from_col].getGraphics());
+			    gameDisplay[from_row][from_col].paint(gameDisplay[from_row][from_col].getGraphics());
 			}
 		    }
 		    else {
@@ -191,10 +190,8 @@ public class PlayAchi extends JFrame {
 			    if (numberEmptyTiles() > 1) {
 				// Set down a new tile
 				game.storePlay(pos.getRow(),pos.getCol(),COMPUTER);
-				gameDisplay[pos.getRow()][pos.getCol()].setIcon(
-						      new ImageIcon("computer.gif"));
-				gameDisplay[pos.getRow()][pos.getCol()].paint(gameDisplay
-					   [pos.getRow()][pos.getCol()].getGraphics());
+				gameDisplay[pos.getRow()][pos.getCol()].setIcon(new ImageIcon("computer.gif"));
+				gameDisplay[pos.getRow()][pos.getCol()].paint(gameDisplay[pos.getRow()][pos.getCol()].getGraphics());
 			    }
 			    else {
 				// Shift tiles
@@ -212,14 +209,10 @@ public class PlayAchi extends JFrame {
 				// Make the computer's move
 				game.storePlay(pos.getRow(),pos.getCol(),EMPTY);
 				game.storePlay(empty_row,empty_col,COMPUTER);
-				gameDisplay[empty_row][empty_col].setIcon(
-						      new ImageIcon("computer.gif"));
-				gameDisplay[pos.getRow()][pos.getCol()].setIcon(
-						      new ImageIcon("empty.gif"));
-				gameDisplay[empty_row][empty_col].paint(gameDisplay
-					   [empty_row][empty_col].getGraphics());
-				gameDisplay[pos.getRow()][pos.getCol()].paint(gameDisplay
-					   [pos.getRow()][pos.getCol()].getGraphics());
+				gameDisplay[empty_row][empty_col].setIcon(new ImageIcon("computer.gif"));
+				gameDisplay[pos.getRow()][pos.getCol()].setIcon(new ImageIcon("empty.gif"));
+				gameDisplay[empty_row][empty_col].paint(gameDisplay[empty_row][empty_col].getGraphics());
+				gameDisplay[pos.getRow()][pos.getCol()].paint(gameDisplay[pos.getRow()][pos.getCol()].getGraphics());
 			    }
 			    if (game.wins(COMPUTER)) endGame("Computer wins");
 			    else if (game.isDraw(HUMAN)) endGame("Game is a draw");
@@ -231,8 +224,7 @@ public class PlayAchi extends JFrame {
 			if (from_row != -1) {
 			    /* Mark selected position */
 			    gameDisplay[from_row][from_col].setIcon(new ImageIcon("human.gif"));
-			    gameDisplay[from_row][from_col].paint(gameDisplay
-                                                              [from_row][from_col].getGraphics());
+			    gameDisplay[from_row][from_col].paint(gameDisplay[from_row][from_col].getGraphics());
 			}
 
 			to_row = -1;        /* Forget invalid play */
@@ -263,7 +255,7 @@ public class PlayAchi extends JFrame {
        /* --------------------------------------------- */
 	private boolean validPlay(int row, int col) {	  
        /* --------------------------------------------- */  
-	    if (numberEmptyTiles() > 1)
+	    if (numberEmptyTiles() > 1) 
 		if (game.tileIsEmpty(row,col)) return true;
 		else return false;
 	    else 
@@ -334,8 +326,7 @@ public class PlayAchi extends JFrame {
 			if (lookupVal != -1) 
 			    reply = new PosPlay(lookupVal,row,column);
 			else {
-			    reply = computerPlay(opponent, highest_score, 
-                                         lowest_score, level + 1);
+			    reply = computerPlay(opponent, highest_score, lowest_score, level + 1);
 			    game.insertConfig(configurations,reply.getScore());
 			}
 		    }
@@ -402,16 +393,14 @@ public class PlayAchi extends JFrame {
 			  if (lookupVal != -1) 
 			    reply = new PosPlay(lookupVal,row,column);
 			  else {
-			    reply = computerPlay(opponent, highest_score, 
-                                         lowest_score, level + 1);
+			    reply = computerPlay(opponent, highest_score,lowest_score, level + 1);
 			    game.insertConfig(configurations,reply.getScore());
 			  }
 		        }
 		        game.storePlay(row,column,symbol);
 			game.storePlay(empty_row,empty_col,EMPTY);
                     
-		        if((symbol == COMPUTER && reply.getScore() > value) ||
-		           (symbol == HUMAN && reply.getScore() < value)) {
+		        if((symbol == COMPUTER && reply.getScore() > value) ||(symbol == HUMAN && reply.getScore() < value)) {
 			  bestRow = row; 
 			  bestColumn = column;
 			  value = reply.getScore();

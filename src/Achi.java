@@ -254,4 +254,6 @@ public class Achi {
 		}
 		return 1;	
 	}
+	
+	// USE MAIN FUNCTION TO TEST
 }
