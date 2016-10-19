@@ -2,9 +2,13 @@
  * Achi class implements all support methods for computer player
  */
 public class Achi {
+	/* Attributes include board_size, max_levels and actual gameboard with constants for symbols */
 	private int board_size;
 	private int max_levels;
 	private char[][] gameBoard;
+	private final char HUMAN = 'X';
+	private final char COMP = 'O';
+	private final char EMPTY = ' ';
 	
 	/*
 	 * Constructor: Creates game board using inputs given and also stores inputs
@@ -23,7 +27,12 @@ public class Achi {
 		String gameBoardStr = "";
 		for (int row = 0; row < this.board_size; row++) {
 			for (int col = 0; col < this.board_size; col++) {
-				gameBoardStr += this.gameBoard[row][col];
+				if (gameBoard[row][col] == 0) {
+					gameBoardStr += " ";
+				}
+				else {
+					gameBoardStr += this.gameBoard[row][col];
+				}
 			}
 		}
 		return gameBoardStr;
@@ -68,24 +77,45 @@ public class Achi {
 	 * Stores symbol in gameBoard[row][col].
 	 */
 	public void storePlay(int row, int col, char symbol) {
-		this.gameBoard[row][col] = symbol;
+		if ( (row == -1 || col == -1) || (row > board_size || col > board_size) ) {
+			System.out.println("Chose wrong numbers for row and columns");
+		} else {
+			this.gameBoard[row][col] = symbol;
+		}
 	}
 	
 	/*
-	 * Returns true if gameBoard[row][col]i s ’ ’, otherwise it returns false
+	 * Returns true if gameBoard[row][col]is 0 or empty, otherwise it returns false
+	 * Note: Empty index is referred to using 0
 	 */
 	public boolean tileIsEmpty (int row, int col) {
-		if (this.gameBoard[row][col] == ' ') {
+		//checkBoard();
+		if (gameBoard[row][col] == 0 || gameBoard[row][col] == EMPTY || gameBoard[row][col] == ' ') {
 			return true;
 		}
 		return false;
+	}
+	
+	private void checkBoard() {
+		for (int i = 0; i<board_size;i++) {
+			String rowStr = "";
+			for (int j = 0; j < board_size; j++) {
+				if (gameBoard[i][j]==0) {
+					rowStr += " ";
+				}
+				else {
+					rowStr += gameBoard[i][j];
+				}
+			}
+			System.out.println(rowStr);
+		}
 	}
 	
 	/*
 	 *  Returns true if gameBoard[row][col] is ’O’; otherwise it returns false.
 	 */
 	public boolean tileIsComputer (int row, int col) {
-		if (this.gameBoard[row][col] == 'O') {
+		if (this.gameBoard[row][col] == COMP) {
 			return true;
 		}
 		return false;
@@ -95,7 +125,7 @@ public class Achi {
 	 *  Returns true if gameBoard[row][col] is ’X’; otherwise it returns false.
 	 */
 	public boolean tileIsHuman (int row, int col) {
-		if (this.gameBoard[row][col] == 'X') {
+		if (this.gameBoard[row][col] == HUMAN) {
 			return true;
 		}
 		return false;
@@ -123,6 +153,7 @@ public class Achi {
 		return false;
 	}
 	
+	// Checks winning conditions, checks if one symbol is covered from one corner to opposite
 	private boolean checkDiagonal(char symbol, int row) {
 		if (row == 0) {
 			for (int i = row; i < this.board_size; i++) {
@@ -142,6 +173,7 @@ public class Achi {
 		return true;
 	}
 	
+	// Checks vertically and checks if there is a column of symbols formed
 	private boolean checkVertical(char symbol, int col) {
 		if (this.gameBoard[0][col] == symbol && this.gameBoard[this.board_size - 1][col] == symbol) {
 			boolean colIsConnected = checkVerticalLine(symbol, col);
@@ -150,6 +182,7 @@ public class Achi {
 		return false;
 	}
 	
+	// Checks the column to see if made up all same symbols
 	private boolean checkVerticalLine(char symbol, int col) {
 		for (int i = 0; i < this.board_size; i++) {
 			if (this.gameBoard[i][col] != symbol) {
@@ -159,6 +192,7 @@ public class Achi {
 		return true;
 	}
 	
+	// Checks horizontally to see if symbol has filled it up
 	private boolean checkHorizontal(char symbol, int row) {
 		if (this.gameBoard[row][0] == symbol && this.gameBoard[row][this.board_size-1] == symbol) {
 			boolean rowIsConnected = checkHorizontalLine(symbol, row);
@@ -167,6 +201,7 @@ public class Achi {
 		return false;
 	}
 	
+	// Checks actual row to see if filled up
 	private boolean checkHorizontalLine(char symbol, int row) {
 		for (int i = 0; i < this.board_size; i++) {
 			if (this.gameBoard[row][i] != symbol) {
@@ -210,6 +245,7 @@ public class Achi {
 		return true;		
 	}
 	
+	// Checks if players have reached maximum amount of moves
 	private boolean reachedMaxMoves(String gameBoardStr) {
 		String newStr = gameBoardStr.replaceAll("\\s","");
 		int maxMoves = ((this.board_size)^2) - 1;
@@ -219,22 +255,38 @@ public class Achi {
 		return false;
 	}
 	
+	// Check if cell has empty cells if current cell is on top row
 	private boolean checkAdjTopHasEmpty(int row, int col) {
-		if (this.gameBoard[row][col-1] == ' ' || this.gameBoard[row+1][col] == ' ' || this.gameBoard[row][col+1] == ' ' ) {
-			return true;
-		}
+		if(col - 1 < 0 || col + 1 > board_size ) {
+			if (this.tileIsEmpty(row+1, col)) {
+				return true;
+			}
+		}else if (this.tileIsEmpty(row, col-1)|| this.tileIsEmpty(row+1, col) || this.tileIsEmpty(row, col+1) ) {
+				return true;
+			}
 		return false;
 	}
 	
+	// Check if have any empty cells around
 	private boolean checkAdjBottomHasEmpty(int row, int col) {
-		if (this.gameBoard[row][col-1] == ' ' || this.gameBoard[row-1][col] == ' ' || this.gameBoard[row][col+1] == ' ' ) {
+		if(col - 1 < 0 || col + 1 > board_size ) {
+			if (this.tileIsEmpty(row-1, col)) {
+				return true;
+			}
+		}
+		else if (this.tileIsEmpty(row, col-1) || this.tileIsEmpty(row-1, col) || this.tileIsEmpty(row, col+1) ) {
 			return true;
 		}
 		return false;
 	}
 	
+	// Check if any empty cells if current cell is on bottom row
 	private boolean checkAdjHasEmpty(int row, int col) {
-		if (this.gameBoard[row][col-1] == ' ' || this.gameBoard[row-1][col] == ' ' || this.gameBoard[row][col+1] == ' ' || this.gameBoard[row+1][col] == ' ') {
+		if(col - 1 < 0 || col + 1 > board_size ) {
+			if (this.tileIsEmpty(row+1, col) || this.tileIsEmpty(row-1, col)) {
+				return true;
+			}
+		}else if (this.tileIsEmpty(row, col-1) || this.tileIsEmpty(row-1, col) || this.tileIsEmpty(row, col+1) || this.tileIsEmpty(row+1, col)) {
 			return true;
 		}
 		return false;
@@ -245,9 +297,9 @@ public class Achi {
 	 * Returns 2 if draw and 1 if undecided
 	 */
 	public int evalBoard(char symbol) {
-		if (wins('O') == true) {
+		if (wins(COMP) == true) {
 			return 3;
-		} else if (wins('X') == true) {
+		} else if (wins(HUMAN) == true) {
 			return 0;
 		} else if (isDraw(symbol) == true) {
 			return 2;
@@ -255,5 +307,5 @@ public class Achi {
 		return 1;	
 	}
 	
-	// USE MAIN FUNCTION TO TEST
+
 }
