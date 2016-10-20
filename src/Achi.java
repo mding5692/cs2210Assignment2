@@ -89,26 +89,10 @@ public class Achi {
 	 * Note: Empty index is referred to using 0
 	 */
 	public boolean tileIsEmpty (int row, int col) {
-		//checkBoard();
 		if (gameBoard[row][col] == 0 || gameBoard[row][col] == EMPTY || gameBoard[row][col] == ' ') {
 			return true;
 		}
 		return false;
-	}
-	
-	private void checkBoard() {
-		for (int i = 0; i<board_size;i++) {
-			String rowStr = "";
-			for (int j = 0; j < board_size; j++) {
-				if (gameBoard[i][j]==0) {
-					rowStr += " ";
-				}
-				else {
-					rowStr += gameBoard[i][j];
-				}
-			}
-			System.out.println(rowStr);
-		}
 	}
 	
 	/*
